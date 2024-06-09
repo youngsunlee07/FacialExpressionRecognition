@@ -30,8 +30,8 @@ The FER-2013 dataset is used, containing images categorized into seven emotions:
 ## Installation
 Clone the project and install the required packages.
 ```bash
-git clone https://github.com/youngsunlee07/FERProject.git
-cd FERProject
+git clone https://github.com/youngsunlee07/FacialExpressionRecognition.git
+cd FacialExpressionRecognition
 pip install -r requirements.txt
 ``` 
 
