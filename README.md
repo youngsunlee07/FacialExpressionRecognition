@@ -36,12 +36,14 @@ pip install -r requirements.txt
 ``` 
 
 ## Models
-#### DACL (ResNet18 + Attention) 
+### DACL (ResNet18 + Attention) 
 The DACL model is based on ResNet18 with an additional Attention module. It is implemented in DACL.ipynb.
 
-- TransFER (ResNet18+Transformer): The TransFER model combines ResNet18 and a Transformer Encoder. It is implemented in TransFER.ipynb.
+### TransFER (ResNet18+Transformer) 
+The TransFER model combines ResNet18 and a Transformer Encoder. It is implemented in TransFER.ipynb.
 
-- AlexNet, ResNet50, VGGNet: These standard models are adapted for the FER-2013 dataset and are implemented in Alexnet.ipynb, ResNet-50.ipynb, and VGGNet.ipynb, respectively.
+### AlexNet, ResNet50, VGGNet 
+These standard models are adapted for the FER-2013 dataset and are implemented in Alexnet.ipynb, ResNet-50.ipynb, and VGGNet.ipynb, respectively.
 
 ## Training
 To train a model, open and run the respective Jupyter Notebook file. For example, to train the DACL model, open DACL.ipynb.
