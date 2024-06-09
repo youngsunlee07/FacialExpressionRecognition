@@ -21,10 +21,7 @@ FERProject/
 ├── ResNet-50.ipynb
 ├── TransFER.ipynb
 ├── VGGNet.ipynb
-├── ProjectPresentation_FacialExpressionRecognition.pdf
-├── ProjectReport_FacialExpressionRecognition.pdf
-├── requirements.txt
-└── README.md 
+└── VGGNet.ipynb
 ```
 
 ## Dataset
