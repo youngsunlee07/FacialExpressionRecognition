@@ -9,6 +9,7 @@ The FER-2013 dataset is used, containing images categorized into seven emotions:
 You can download the FER-2013 dataset from [Kaggle]
 After downloading, extract the files and organize them as follows:
 
+```perl
 FERProject/
 │
 ├── data/
@@ -28,6 +29,7 @@ FERProject/
 │ │ ├── neutral/
 │ │ ├── sad/
 │ │ ├── surprise/ 
+```
 
 ### Installation
 Clone the project and install the required packages.
