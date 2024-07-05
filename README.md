@@ -56,27 +56,17 @@ To evaluate a model, the script will automatically print evaluation metrics and 
 - Precision
 - Recall
 - F1 Score
-- ROC Curve and AUC
-
-### Results
-The following metrics are used to measure the performance of the models:
-- Confusion Matrix
-- Precision
-- Recall
-- F1 Score
-- ROC Curve and AUC
+- ROC Curve and AUC 
 
 ## Models
 ### DACL (ResNet18 + Attention) 
-The DACL model is based on ResNet18 with an additional Attention module. It is implemented in DACL.ipynb.
+The DACL model is based on ResNet18 with an additional Attention module. It is implemented in dacl.py
 
 ### TransFER (ResNet18+Transformer) 
-The TransFER model combines ResNet18 and a Transformer Encoder. It is implemented in TransFER.ipynb.
+The TransFER model combines ResNet18 and a Transformer Encoder. It is implemented in transfer.py
 
 ### AlexNet, ResNet50, VGGNet 
-These standard models are adapted for the FER-2013 dataset and are implemented in Alexnet.ipynb, ResNet-50.ipynb, and VGGNet.ipynb, respectively.
-
-
+These standard models are adapted for the FER-2013 dataset and are implemented in alexnet.py, resnet-50.py, and vggnet.py respectively.
 
 ## Contact
-For any questions or inquiries, please contact: youngsun.lee07@gmail.com
+For any questions or inquiries, please contact: youngsun.lee07@gmail.com 
