@@ -12,7 +12,7 @@ import os
 from PIL import Image
 import time
 
-# Data loading and transformation functions
+# Custom dataset class for FER (Facial Emotion Recognition)
 class FERDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.root_dir = root_dir
@@ -35,23 +35,25 @@ class FERDataset(Dataset):
 
         for _ in range(3):  
             try:
-                image = Image.open(img_path).convert('L')  
+                image = Image.open(img_path).convert('L')  # Convert image to grayscale
                 if self.transform:
                     image = self.transform(image)
                 return image, label
             except FileNotFoundError:
-                time.sleep(1) 
+                time.sleep(1)  # Retry after a short delay
         raise FileNotFoundError(f"Failed to open {img_path} after multiple attempts.")
 
+# Data transformations for preprocessing
 transform = transforms.Compose([
-    transforms.Grayscale(),  
-    transforms.Resize((230, 230)),  
-    transforms.RandomRotation(15), 
-    transforms.RandomCrop(224, padding=8),  
-    transforms.RandomHorizontalFlip(),  
+    transforms.Grayscale(),  # Convert images to grayscale
+    transforms.Resize((230, 230)),  # Resize images
+    transforms.RandomRotation(15),  # Random rotation for data augmentation
+    transforms.RandomCrop(224, padding=8),  # Random crop with padding
+    transforms.RandomHorizontalFlip(),  # Random horizontal flip
     transforms.ToTensor(),
 ])
 
+# Function to load data using DataLoader
 def load_data(train_dir, test_dir, batch_size):
     train_dataset = FERDataset(train_dir, transform=transform)
     test_dataset = FERDataset(test_dir, transform=transform)
@@ -59,7 +61,7 @@ def load_data(train_dir, test_dir, batch_size):
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=0)
     return train_loader, test_loader
 
-# Model evaluation functions
+# Model evaluation function
 def evaluate_model(model, test_loader, device, zero_division=1):
     model.eval()
     correct = 0
@@ -86,6 +88,7 @@ def evaluate_model(model, test_loader, device, zero_division=1):
     
     return accuracy, cm, precision, recall, f1, all_labels, all_outputs
 
+# Function to plot confusion matrix
 def plot_confusion_matrix(cm):
     plt.figure(figsize=(6,5))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
@@ -93,6 +96,7 @@ def plot_confusion_matrix(cm):
     plt.ylabel('True Label')
     plt.show()
 
+# Function to plot ROC curve
 def plot_roc_curve(num_classes, all_labels, all_outputs):
     all_labels_bin = label_binarize(all_labels, classes=[i for i in range(num_classes)])
     fpr = dict()
