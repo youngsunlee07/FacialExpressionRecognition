@@ -51,52 +51,58 @@ class DACLModel(nn.Module):
         x = self.fc(x)
         return x
 
-# Set up the device, model, loss function, optimizer, and learning rate scheduler
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = DACLModel(num_classes=7).to(device)
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[15, 30], gamma=0.1)
+def main():
+    # Set up the device, model, loss function, optimizer, and learning rate scheduler
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = DACLModel(num_classes=7).to(device)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[15, 30], gamma=0.1)
 
-# Load data
-train_loader, test_loader = load_data('path/to/train', 'path/to/test', batch_size=32)
+    # Load data
+    train_loader, test_loader = load_data('/content/drive/MyDrive/FacialExpressionRecognition/FER-2013/train', 
+                                          '/content/drive/MyDrive/FacialExpressionRecognition/FER-2013/test', 
+                                          batch_size=32)
 
-# Training loop
-num_epochs = 50
-for epoch in range(num_epochs):
-    model.train()
-    total_loss = 0.0
-    correct = 0
-    total = 0
+    # Training loop
+    num_epochs = 50
+    for epoch in range(num_epochs):
+        model.train()
+        total_loss = 0.0
+        correct = 0
+        total = 0
 
-    for batch_idx, (images, labels) in enumerate(train_loader):
-        images, labels = images.to(device), labels.to(device)
-        optimizer.zero_grad()
-        outputs = model(images)
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
-        total_loss += loss.item()
-        _, predicted = outputs.max(1)
-        total += labels.size(0)
-        correct += predicted.eq(labels).sum().item()
+        for batch_idx, (images, labels) in enumerate(train_loader):
+            images, labels = images.to(device), labels.to(device)
+            optimizer.zero_grad()
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+            total_loss += loss.item()
+            _, predicted = outputs.max(1)
+            total += labels.size(0)
+            correct += predicted.eq(labels).sum().item()
 
-    scheduler.step()
+        scheduler.step()
 
-    # Print training accuracy and loss after each epoch
-    print(f"Epoch {epoch+1}/{num_epochs}, Training Loss: {total_loss/len(train_loader):.4f}, Training Accuracy: {100.*correct/total:.2f}%")
+        # Print training accuracy and loss after each epoch
+        print(f"Epoch {epoch+1}/{num_epochs}, Training Loss: {total_loss/len(train_loader):.4f}, Training Accuracy: {100.*correct/total:.2f}%")
 
-# Evaluate the model
-accuracy, cm, precision, recall, f1, all_labels, all_outputs = evaluate_model(model, test_loader, device, zero_division=1)
+    # Evaluate the model
+    accuracy, cm, precision, recall, f1, all_labels, all_outputs = evaluate_model(model, test_loader, device, zero_division=1)
 
-# Print evaluation metrics
-print(f"Accuracy: {accuracy}%")
-print(f"Precision: {precision}")
-print(f"Recall: {recall}")
-print(f"F1 Score: {f1}")
+    # Print evaluation metrics
+    print(f"Accuracy: {accuracy}%")
+    print(f"Precision: {precision}")
+    print(f"Recall: {recall}")
+    print(f"F1 Score: {f1}")
 
-# Plot confusion matrix
-plot_confusion_matrix(cm)
+    # Plot confusion matrix
+    plot_confusion_matrix(cm)
 
-# Plot ROC curve
-plot_roc_curve(7, all_labels, all_outputs) 
+    # Plot ROC curve
+    plot_roc_curve(7, all_labels, all_outputs)
+
+if __name__ == "__main__":
+    main()

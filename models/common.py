@@ -22,10 +22,11 @@ class FERDataset(Dataset):
 
         for label, emotion in enumerate(self.classes):
             emotion_dir = os.path.join(root_dir, emotion)
-            for filename in os.listdir(emotion_dir):
-                img_path = os.path.join(emotion_dir, filename)
-                if os.path.exists(img_path):  
-                    self.data.append((img_path, label))
+            if os.path.exists(emotion_dir):
+                for filename in os.listdir(emotion_dir):
+                    img_path = os.path.join(emotion_dir, filename)
+                    if os.path.exists(img_path):
+                        self.data.append((img_path, label))
 
     def __len__(self):
         return len(self.data)
@@ -57,8 +58,8 @@ transform = transforms.Compose([
 def load_data(train_dir, test_dir, batch_size):
     train_dataset = FERDataset(train_dir, transform=transform)
     test_dataset = FERDataset(test_dir, transform=transform)
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=0)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=0)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=2)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=2)
     return train_loader, test_loader
 
 # Model evaluation function
